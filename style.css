@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+:root{
+    --main-color: gray;
+    --main-color-hover: rgb(144, 144, 144);
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+h1{
+    font-family: 'Dancing Script', cursive;
+    font-size: 80px;
+    text-align: center;
+    letter-spacing: normal;
+    transition: 0.5s;
+}
+h1:hover{
+    letter-spacing: 5px;
+    transition: 0.5s;
+}
+body{
+    padding: 0 100px;
+}
+#origin{
+    text-align: center;
+    align-self: center;
+    width: auto;
+    height: max-content;
+    padding: 10px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(6, minmax(150px, 1fr));
+    gap: 10px;
+    row-gap: 20px;
+}
+.card{
+    background-color: var(--main-color);
+    border-radius: 17px;
+    transition-duration: 1s;
+    font-size: 60px;
+}
+.card:hover{
+    background-color: var(--main-color-hover);
+    box-shadow:5px 5px rgb(59, 12, 3);
+    transition-duration: 0.5s;
+}
+@media (max-width: 1200px) {
+    #origin{
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+}
+@media (max-width: 660px){
+    body{
+        padding: 0;
+    }
+    #origin{
+        grid-template-columns:  1fr 1fr;
+    }
+}
