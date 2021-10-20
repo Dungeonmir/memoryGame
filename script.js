@@ -47,7 +47,7 @@ class Tile{
         this.node.style.backgroundColor = color;
     }
     flip(){
-        if (this.flipped) {
+        if (this.flipped && !this.done) {
             this.node.textContent = '';
             this.flipped=false;
         }
