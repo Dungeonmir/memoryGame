@@ -6,9 +6,10 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Dancing Script', cursive;
 }
 h1{
-    font-family: 'Dancing Script', cursive;
+    
     font-size: 80px;
     text-align: center;
     letter-spacing: normal;
@@ -20,6 +21,18 @@ h1:hover{
 }
 body{
     padding: 0 100px;
+}
+#score{
+    
+    font-size: 35px;
+    text-align: center;
+    align-self: center;
+    width: auto;
+    height: max-content;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
 }
 #origin{
     text-align: center;

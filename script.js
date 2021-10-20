@@ -1,4 +1,5 @@
 let originDiv = document.getElementById("origin");
+let scoreNode = document.getElementById("score");
 
 function generateRandomInt(min, max){
     min = Math.ceil(min);
@@ -21,6 +22,31 @@ function shuffle(array){
     }
   
     return array;
+}
+class Score{
+    constructor(rootNode){
+        this.rootNode = rootNode;
+        this.tilesFlipped = 0;
+        this.tilesDone = 0;
+        let tilesFlippedP = document.createElement('p');
+        let tilesDoneP = document.createElement('p');
+        tilesFlippedP.textContent = 'Tiles done: 0' ;
+        tilesDoneP.textContent = 'Tiles Flipped: 0';
+        this.rootNode.appendChild(tilesDoneP);
+        this.rootNode.appendChild(tilesFlippedP);
+    }
+    update(tilesDone, tilesFlipped){
+        this.tilesDone = tilesDone;
+        this.tilesFlipped = tilesFlipped; 
+       
+        let children = this.rootNode.childNodes;
+        let tilesDoneP = children[0];
+        let tilesFlippedP = children[1];
+        tilesFlippedP.textContent = 'Tiles done: ' + this.tilesDone;
+        tilesDoneP.textContent = 'Tiles Flipped: '+ this.tilesFlipped;
+        
+
+    }
 }
 class Tile{
     constructor(id, width, height, tileValue){
@@ -65,6 +91,7 @@ class Game{
         this.fieldHeight = fieldHeight;
         this.gameMode = gameMode;
         this.gameTime = 0;
+        this.tilesFlippedAll = 0;
         this.tilesFlipped = 0;
         this.tilesDone = 0;
         this.secondsToWaitUntilFlipp = 1;
@@ -101,20 +128,24 @@ class Game{
     }
     
     start(){
+        let score  = new Score(scoreNode);
         let newTile;
         let previousTile;
         this.state = 'start';
         for (let i = 0; i < this.tilesArray.length; i++) {
             this.tilesArray[i].node.addEventListener("click",()=>{
                 
-                if (this.tilesArray[i].flipped) {
+                if (this.tilesArray[i].flipped && !this.tilesArray[i].done) {
                     
                 
                 this.tilesFlipped++;
+                this.tilesFlippedAll++;
                 previousTile = newTile;
                 newTile = this.tilesArray[i];
                 
                 console.log(this.tilesFlipped);
+                if (previousTile!=null) {
+                    
                 
                     
                     if (previousTile.tileValue == newTile.tileValue &&
@@ -122,7 +153,9 @@ class Game{
                         previousTile.done = true;
                         newTile.done = true;
                         this.tilesDone+=2;
+                       
                         console.log('Tiles done: ' + this.tilesDone);
+                        
                         if (this.tilesAll == this.tilesDone) {
                             this.pause();
                         }
@@ -144,6 +177,7 @@ class Game{
                     
                     
                 }
+            } score.update(this.tilesDone, this.tilesFlippedAll);
             });
         }
         
@@ -159,6 +193,7 @@ class Game{
         console.log('Игра окончена');
     }
 }
+
 let game = new Game(3, 4, 'easy', originDiv);
 game.start();
 console.log(game.tilesValueArray);
