@@ -65,6 +65,7 @@ class Game{
         this.gameTime = 0;
         this.tilesFlipped = 0;
         this.tilesDone = 0;
+        this.secondsToWaitUntilFlipp = 1;
         this.tilesAll = fieldHeight * fieldWidth;
         this.tilesValueArray = [];
         this.tilesArray = [];
@@ -72,7 +73,6 @@ class Game{
         this.rootNode = rootNode;
         this.tilesValueArray = this.createRandomArray(this.tilesAll);
         //console.log(this.tilesArray);
-        this.rootNode.style.backgroundColor = 'orange';
         this.makeField();
     }
     createRandomArray(length){
@@ -105,20 +105,42 @@ class Game{
         
     }
     start(){
+        let value;
+        let previousValue;
         this.state = 'start';
         for (let i = 0; i < this.tilesArray.length; i++) {
             this.tilesArray[i].node.addEventListener("click",()=>{
                 this.tilesFlipped++;
+                previousValue = value;
+                value = this.tilesArray[i].tileValue;
+                
                 console.log(this.tilesFlipped);
-                if (this.tilesFlipped>2) {
-                    for (let j = 0; j < this.tilesArray.length; j++) {
-                        if (!this.tilesArray[j].done && this.tilesArray[j].flipped) {
-                            this.tilesArray[j].flip();
-                            this.tilesFlipped = 0;
+                
+                    
+                    if (previousValue == value) {
+                        for (let j = 0; j < this.tilesArray.length; j++) {
+                            if (this.tilesArray[j].tileValue==value) {
+                                this.tilesArray[j].done = true;
+                                console.log(this.tilesArray[j]);
+                            }
+                            
                         }
+                    }
+                    if (this.tilesFlipped>1) {
+                        setTimeout(() => {
+                            for (let k = 0; k < this.tilesArray.length; k++) {
+                            
+                                if (this.tilesArray[k].flipped && !this.tilesArray[k].done) {
+                                    this.tilesArray[k].flip();
+                                    this.tilesFlipped = 0;
+                                }
+                            }
+                        }, this.secondsToWaitUntilFlipp*1000);
                         
                     }
-                }
+                    
+                    
+                
             });
         }
         
