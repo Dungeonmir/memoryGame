@@ -38,6 +38,8 @@ class Tile{
         div.style.height = '100px';
         div.id = 'flipCard' + classId;
         div.className = 'card';
+        let paragraph = document.createElement('p');
+        div.appendChild(paragraph);
         this.node = originDiv.appendChild(div);
         this.node.addEventListener("click", ()=>{
             this.flip();
@@ -48,11 +50,11 @@ class Tile{
     }
     flip(){
         if (this.flipped && !this.done) {
-            this.node.textContent = '';
+            this.node.firstChild.textContent = '';
             this.flipped=false;
         }
         else{
-            this.node.textContent = this.tileValue;
+            this.node.firstChild.textContent = this.tileValue;
             this.flipped = true;
         }
     }
@@ -97,33 +99,32 @@ class Game{
         }
         //setTimeout(() => {console.log(this.tilesArray[0])}, 1000);
     }
-    newTurn(){
-
-        
-        
-            
-        
-    }
+    
     start(){
-        let value;
-        let previousValue;
+        let newTile;
+        let previousTile;
         this.state = 'start';
         for (let i = 0; i < this.tilesArray.length; i++) {
             this.tilesArray[i].node.addEventListener("click",()=>{
+                
+                if (this.tilesArray[i].flipped) {
+                    
+                
                 this.tilesFlipped++;
-                previousValue = value;
-                value = this.tilesArray[i].tileValue;
+                previousTile = newTile;
+                newTile = this.tilesArray[i];
                 
                 console.log(this.tilesFlipped);
                 
                     
-                    if (previousValue == value) {
-                        for (let j = 0; j < this.tilesArray.length; j++) {
-                            if (this.tilesArray[j].tileValue==value) {
-                                this.tilesArray[j].done = true;
-                                console.log(this.tilesArray[j]);
-                            }
-                            
+                    if (previousTile.tileValue == newTile.tileValue &&
+                        previousTile.id !=newTile.id &&!newTile.done) {
+                        previousTile.done = true;
+                        newTile.done = true;
+                        this.tilesDone+=2;
+                        console.log('Tiles done: ' + this.tilesDone);
+                        if (this.tilesAll == this.tilesDone) {
+                            this.pause();
                         }
                     }
                     if (this.tilesFlipped>1) {
@@ -133,6 +134,8 @@ class Game{
                                 if (this.tilesArray[k].flipped && !this.tilesArray[k].done) {
                                     this.tilesArray[k].flip();
                                     this.tilesFlipped = 0;
+                                    newTile = null;
+                                    previousTile = null;
                                 }
                             }
                         }, this.secondsToWaitUntilFlipp*1000);
@@ -140,7 +143,7 @@ class Game{
                     }
                     
                     
-                
+                }
             });
         }
         
@@ -148,12 +151,14 @@ class Game{
         /*while (this.tilesAll != this.tilesDone) {
             this.newTurn();
         }*/
-        this.pause();
+        
+        
     }
     pause(){
         this.state = 'pause';
+        console.log('Игра окончена');
     }
 }
-let game = new Game(5, 6, 'easy', originDiv);
+let game = new Game(3, 4, 'easy', originDiv);
 game.start();
 console.log(game.tilesValueArray);

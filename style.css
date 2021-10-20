@@ -39,6 +39,14 @@ body{
     border-radius: 17px;
     transition-duration: 1s;
     font-size: 60px;
+    text-align: center;
+    vertical-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.card > p{
+    padding: 12px;
 }
 .card:hover{
     background-color: var(--main-color-hover);
