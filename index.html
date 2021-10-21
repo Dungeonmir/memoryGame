@@ -9,10 +9,24 @@
 </head>
 <body>
     <h1>Memo Game</h1>
+    
     <div id="score"></div>
-    <div id="origin">
-
+    <div class="input">
+        <input type="range" id="fieldSize" min="0" max="5" step="1" list="tickmarks" value="2">
     </div>
+    
+    <div id="origin"></div>
+    
+    <datalist id="tickmarks">
+        <option value="0"></option>
+        <option value="1"></option>
+        <option value="2"></option>
+        <option value="3"></option>
+        <option value="4"></option>
+        <option value="5"></option>
+
+        </datalist>
+        
     <script src="script.js"></script>
 </body>
 </html>
