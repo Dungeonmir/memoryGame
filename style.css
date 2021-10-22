@@ -92,7 +92,9 @@ input[type=range] {
     --main-color: rgb(255, 255, 255);
     --main-color-border: rgb(0, 0, 0);
 }
-
+body{
+    animation: fadein 2s;
+}
 datalist{
     display: block;
 }
@@ -112,6 +114,20 @@ h1:hover{
     letter-spacing: 5px;
     transition: 0.5s;
 }
+.header{
+  font-size: 60px;
+  padding: 10px;
+  position: absolute;
+  top: 120px;
+}
+#yesButton{
+  font-size: 60px;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+}
 .input{
     vertical-align: center;
     text-align: center;
@@ -122,6 +138,12 @@ h1:hover{
     left: 0px;
     top: 150px;
 
+}
+.fade{
+    animation: fadein 2s;
+}
+.fadeOut{
+    animation: fadein backwards 2s;
 }
 #score{
     
@@ -191,10 +213,43 @@ h1:hover{
     }
 }
 @media (max-width: 660px){
-    body{
-        padding: 0;
-    }
     #origin{
         grid-template-columns:  1fr 1fr;
     }
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+.button {
+  background-color: white;
+  font-size: 60px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.button:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  .button {
+    padding: 0.25em 0.75em;
+  }
 }

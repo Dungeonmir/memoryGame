@@ -45,12 +45,15 @@ class Score{
         this.tilesAll = tilesAll;
         this.tilesDone = tilesDone;
         this.tilesFlipped = tilesFlipped; 
-       
+        
         let children = this.rootNode.childNodes;
-        let tilesDoneP = children[0];
-        let tilesFlippedP = children[1];
-        tilesFlippedP.textContent = 'Tiles done: ' + this.tilesDone+ '/' + this.tilesAll;
-        tilesDoneP.textContent = 'Tiles Flipped: '+ this.tilesFlipped ;
+        if (children[1]!=null) {
+            let tilesDoneP = children[0];
+            let tilesFlippedP = children[1];
+            tilesFlippedP.textContent = 'Tiles done: ' + this.tilesDone+ '/' + this.tilesAll;
+            tilesDoneP.textContent = 'Tiles Flipped: '+ this.tilesFlipped ;
+        }
+        
         
 
     }
@@ -173,6 +176,7 @@ class Game{
         let newTile;
         let previousTile;
         state = 'start';
+        console.log('state: ' + state);
         for (let i = 0; i < this.tilesArray.length; i++) {
             this.tilesArray[i].node.addEventListener("click",()=>{
                 if (this.tilesArray[i].flipped && !this.tilesArray[i].done) {
@@ -240,16 +244,38 @@ class Game{
             this.rootNode.removeChild(this.rootNode.firstChild);
         }
         this.score.clear();
+        this.tilesFlippedAll = 0;
         state = 'pause';
-        console.log('Игра окончена');
+        if (this.won) {
+            this.won=false;
+            let paragraph = document.createElement('h3');
+            paragraph.textContent = 'You won. Wonna try again?';
+            paragraph.className = 'header';
+            this.rootNode.appendChild(paragraph);
+            let div = document.createElement('div');
+            let yesButton = document.createElement('button');
+            yesButton.textContent = 'START AGAIN';
+            div.id = 'yesButton';
+            yesButton.className = 'button';
+            div.appendChild(yesButton);
+            yesButton.onclick = ()=>{
+                this.tilesDone = 0;
+                while (this.rootNode.firstChild) {
+                    this.rootNode.removeChild(this.rootNode.firstChild);
+                    }
+                changeFieldSize(fieldSizeInput.valueAsNumber);
+                this.start();
+                
+            };
+            this.rootNode.appendChild(div);
+        }
     }
 }
 
 let game = new Game(3, 6, 'easy', originDiv);
 game.start();
-fieldSizeInput.addEventListener('change', ()=>{
-    game.stop();
-    switch (fieldSizeInput.valueAsNumber) {
+function changeFieldSize(value){
+    switch (value) {
         case 0:
             game.changeField(2, 3);
             break;
@@ -273,6 +299,10 @@ fieldSizeInput.addEventListener('change', ()=>{
             game.changeField(2,2);
             break;
     }
+}
+fieldSizeInput.addEventListener('change', ()=>{
+    game.stop();
+    changeFieldSize(fieldSizeInput.valueAsNumber);
     game.start();
     
     console.log('input value: ' + fieldSizeInput.valueAsNumber)
